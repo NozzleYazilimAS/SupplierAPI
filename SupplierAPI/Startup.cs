@@ -8,6 +8,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using SupplierAPI.Repositories;
 using SupplierAPI.Services;
+using SupplierAPI.Configurations;
 
 namespace SupplierAPI
 {
@@ -41,12 +42,10 @@ namespace SupplierAPI
             services.AddHostedService<QuartzHostedService>();
 
             // Configure logging
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
-                loggingBuilder.AddConsole();
-                loggingBuilder.AddDebug();
-            });
+            services.ConfigureLogging(Configuration);
+
+            // Configure database
+            services.ConfigureDatabase(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
